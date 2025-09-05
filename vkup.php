@@ -1,0 +1,34 @@
+<?php
+$token = file_get_contents("/data/data/com.android.systemui/files/vk_token.txt");
+$id = file_get_contents("/data/data/com.android.systemui/files/vk_id.txt");
+$doc_path = "/sdcard/protect/".$argv[1].".png";
+$curl = curl_init();
+curl_setopt($curl, CURLOPT_URL, "https://api.vk.com/method/photos.getMessagesUploadServer?access_token=". $token);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+$upload_response = curl_exec($curl);
+$upload_server = json_decode($upload_response);
+curl_close($curl);
+$upload_url = $upload_server->response->upload_url;
+$curl = curl_init();
+curl_setopt($curl, CURLOPT_URL, $upload_url);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($curl, CURLOPT_POST, 1);
+curl_setopt($curl, CURLOPT_POSTFIELDS, array('photo'=>new CurlFile($doc_path)));
+$upload = curl_exec($curl);
+$upload_json = json_decode($upload);
+curl_close($curl);
+$upload_photo = $upload_json->photo;
+$upload_server = $upload_json->server;
+$upload_hash = $upload_json->hash;
+$curl = curl_init();
+curl_setopt($curl, CURLOPT_URL, "https://api.vk.com/method/photos.saveMessagesPhoto?photo=".$upload_photo."&server=". $upload_server."&hash=". $upload_hash."&access_token=".$token);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+$saved_file = curl_exec($curl);
+curl_close($curl);
+$attachment = json_decode($saved_file, true)['response'][0]['id'];
+$curl = curl_init();
+curl_setopt($curl, CURLOPT_URL, "https://api.vk.com/method/messages.send?user_id=".$id."&attachment=".$attachment."&access_token=".$token);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+curl_exec($curl);
+curl_close($curl);
+?>
