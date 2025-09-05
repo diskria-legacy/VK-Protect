@@ -94,10 +94,15 @@ After reboot, when someone enters the wrong pattern, the script will:
 - This project is from **2017**, written as an experiment.  
 - It may cause bootloops, crashes, or bricks.  
 - It is not secure and not production-ready.  
+- VK API may have changed since 2017 and the script may no longer work.  
+- Termux and Termux:API may also have changed, breaking compatibility.  
+- Custom ROMs (CyanogenMod/LineageOS 13) are outdated and no longer supported.  
 - VK token must be reissued if you change your password.  
-- Archived here for educational/historical purposes only.  
+- Archived here for historical/educational purposes only. 
 
 ---
 
 ## License
-MIT License (you can change to any license you prefer).
+No license.  
+All rights reserved.  
+This repository is archived for historical/educational purposes only.
